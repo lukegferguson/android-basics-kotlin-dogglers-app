@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.example.dogglers.GridListTests" tests="1" failures="0" errors="0" skipped="0" time="1.636" timestamp="2022-11-02T15:42:04" hostname="localhost">
+  <properties>
+    <property name="device" value="First_Pixel_5_API_33(AVD) - 13" />
+    <property name="flavor" value="" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="grid_list_content_on_first_page" classname="com.example.dogglers.GridListTests" time="0.824" />
+</testsuite>

@@ -16,9 +16,17 @@
 package com.example.dogglers.adapter
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dogglers.R
+import com.example.dogglers.const.Layout
+import com.example.dogglers.data.DataSource
+import com.example.dogglers.model.Dog
+import org.w3c.dom.Text
 
 /**
  * Adapter to inflate the appropriate list item layout and populate the view with information
@@ -29,38 +37,46 @@ class DogCardAdapter(
     private val layout: Int
 ): RecyclerView.Adapter<DogCardAdapter.DogCardViewHolder>() {
 
-    // TODO: Initialize the data using the List found in data/DataSource
+    // Initialize data with list of dogs
+    val dogList: List<Dog> = DataSource.dogs
 
     /**
      * Initialize view elements
      */
     class DogCardViewHolder(view: View?): RecyclerView.ViewHolder(view!!) {
-        // TODO: Declare and initialize all of the list item UI components
+        // declare and initialize all view components
+        val dogPic: ImageView = view!!.findViewById(R.id.dog_pic)
+        val dogName: TextView = view!!.findViewById(R.id.dog_name)
+        val dogAge: TextView = view!!.findViewById(R.id.dog_age)
+        val dogHobby: TextView = view!!.findViewById(R.id.dog_hobby)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogCardViewHolder {
-        // TODO: Use a conditional to determine the layout type and set it accordingly.
-        //  if the layout variable is Layout.GRID the grid list item should be used. Otherwise the
-        //  the vertical/horizontal list item should be used.
+        //Inflate and return grid_list_item if viewType is grid, otherwise inflate and return vertical_horizontal_list_item
+        var inflatedView: View = if (layout == 3){
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.grid_list_item, parent, false)
+        } else {
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.vertical_horizontal_list_item, parent, false)
+        }
 
-        // TODO Inflate the layout
-
-        // TODO: Null should not be passed into the view holder. This should be updated to reflect
-        //  the inflated layout.
-        return DogCardViewHolder(null)
+        return DogCardViewHolder(inflatedView)
     }
 
-    override fun getItemCount(): Int = 0 // TODO: return the size of the data set instead of 0
+    override fun getItemCount(): Int = dogList.size //return the size of the data set
 
     override fun onBindViewHolder(holder: DogCardViewHolder, position: Int) {
-        // TODO: Get the data at the current position
-        // TODO: Set the image resource for the current dog
-        // TODO: Set the text for the current dog's name
-        // TODO: Set the text for the current dog's age
+        // get data for dog at current position
+        val dog = dogList[position]
+        //makes for easier references to context?.resources
         val resources = context?.resources
-        // TODO: Set the text for the current dog's hobbies by passing the hobbies to the
-        //  R.string.dog_hobbies string constant.
-        //  Passing an argument to the string resource looks like:
-        //  resources?.getString(R.string.dog_hobbies, dog.hobbies)
+        //set image for view
+        holder.dogPic.setImageResource(dog.imageResourceId)
+        //set dog name for view
+        holder.dogName.text = dog.name
+        //pass dog age and hobbies to string resource for formatting
+        holder.dogAge.text = resources?.getString(R.string.dog_age, dog.age)
+        holder.dogHobby.text = resources?.getString(R.string.dog_hobbies, dog.hobbies)
     }
 }
